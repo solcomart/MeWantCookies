@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
+    chrome.storage.local.get(['cookieName', 'cookieValue', 'domain'], function(result) {
+        document.querySelector('input[name="cookieName"]').value = result.cookieName || '';
+        document.querySelector('input[name="cookieValue"]').value = result.cookieValue || '';
+        document.querySelector('input[name="domain"]').value = result.domain || '';
+    });
+
     document.getElementById('setCookieButton').addEventListener('click', function () {
         document.getElementById('errorAlert').innerHTML = '';
         document.getElementById('successAlert').innerHTML = '';
@@ -19,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('errorAlert').innerHTML = 'Domain is not valid!';
             return;
         }
+
+        // запомним значения для автозаполнения полей в следующий раз
+        chrome.storage.local.set({cookieName: cookieName});
+        chrome.storage.local.set({cookieValue: cookieValue});
+        chrome.storage.local.set({domain: domain});
 
         // отсчитаем 60 дней (в миллисекундах)
         var expirationDate = new Date();
