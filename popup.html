@@ -14,14 +14,23 @@
 	<span id="errorAlert" style="color: crimson;"></span>
 	<span id="successAlert" style="color: forestgreen;"></span>
 </div>
-<label for="cookieName">Cookie name:</label>
-<input type="text" name="cookieName" placeholder="Cookie Name"><br><br>
 
-<label for="cookieValue">Cookie value:</label>
-<input type="text" name="cookieValue" placeholder="Cookie Value"><br><br>
+<label>Cookie name:
+	<input type="text" name="cookieName" placeholder="Cookie Name">
+</label>
+<br><br>
 
-<label for="domain">Domain:</label>
-<input type="text" name="domain" placeholder="Domain"><br><br>
+<label>Cookie value:
+	<input type="text" name="cookieValue" placeholder="Cookie Value">
+</label>
+<br><br>
+
+<label>Domains:</label>
+<div class="domainsContainer">
+	<input type="text" name="domain" placeholder="Domain">
+</div>
+<span id="addDomainButton" style="text-decoration: underline; cursor: pointer;">Add domain</span><br><br>
+
 <button id="setCookieButton">SET</button>
 
 </body>
