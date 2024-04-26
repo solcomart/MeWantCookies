@@ -4,3 +4,25 @@ body {
     font-style: normal;
     background-color: antiquewhite;
 }
+
+#fastActions {
+    margin: 6px 0;
+}
+
+#fastActions p {
+    display: inline-block;
+    cursor: pointer;
+    background-color: darkblue;
+    color: antiquewhite;
+    border-radius: 4px;
+    margin: 4px 2px;
+    padding: 3px;
+}
+
+#errorAlert {
+    color: crimson;
+}
+
+#successAlert {
+    color: forestgreen;
+}

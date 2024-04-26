@@ -1,5 +1,5 @@
 function addDomainField(value = '') {
-    var domainsContainer = document.querySelector('.domainsContainer');
+    var domainsContainer = document.getElementById('domainsContainer');
 
     var newDomainInput = document.createElement('input');
     newDomainInput.type = 'text';

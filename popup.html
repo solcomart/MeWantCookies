@@ -10,10 +10,7 @@
 </head>
 <body>
 
-<div>
-	<span id="errorAlert" style="color: crimson;"></span>
-	<span id="successAlert" style="color: forestgreen;"></span>
-</div>
+<div id="fastActions"></div>
 
 <label>Cookie name:
 	<input type="text" name="cookieName" placeholder="Cookie Name">
@@ -26,7 +23,7 @@
 <br><br>
 
 <label>Domains:</label>
-<div class="domainsContainer">
+<div id="domainsContainer">
 	<input type="text" name="domain" placeholder="Domain">
 </div>
 <span id="addDomainButton" style="text-decoration: underline; cursor: pointer;">Add domain</span><br><br>
@@ -41,6 +38,11 @@
 	</label>
 	<br><br>
 	<button id="saveActionButton">Save</button>
+</div>
+
+<div>
+	<p id="errorAlert"></p>
+	<p id="successAlert"></p>
 </div>
 
 </body>
