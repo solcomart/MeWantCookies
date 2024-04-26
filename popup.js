@@ -30,27 +30,52 @@ function getCookieFormValues() {
     }
 }
 
+function fillCookieFormByValues(values) {
+    document.querySelector('input[name="cookieName"]').value = values.cookieName || '';
+    document.querySelector('input[name="cookieValue"]').value = values.cookieValue || '';
+
+    var domains = values.domains || false;
+    // очищаем все домены и добавляем сохранённые
+    if (Array.isArray(domains)) {
+        document.getElementById('domainsContainer').innerHTML = '';
+        for (var i = 0; i < domains.length; i++) {
+            addDomainField(domains[i])
+        }
+    }
+}
+
+function addSavedActionButton(action) {
+    if (!action.actionName || !action.cookieName || !action.cookieName || !Array.isArray(action.domains)) {
+        console.log('Wrong action params', action)
+        return false;
+    }
+
+    var container = document.getElementById('fastActions');
+    var toggle = document.createElement('p');
+    toggle.innerHTML = action.actionName;
+    toggle.setAttribute('data-action-name', action.actionName)
+    toggle.addEventListener('click', function () {
+        fillCookieFormByValues(window.savedActions[this.getAttribute('data-action-name')])
+    });
+
+    container.appendChild(toggle)
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // выведем сохранённые действия
     chrome.storage.local.get('savedActions', function (result) {
         var savedActions = result.savedActions || false;
-        console.log(savedActions)
+        window.savedActions = savedActions;
+        if (typeof savedActions === 'object') {
+            Object.entries(savedActions).forEach(([key, value]) => {
+                addSavedActionButton(value)
+            });
+        }
     });
 
     // наполним форму прошлыми значениями
     chrome.storage.local.get(['cookieName', 'cookieValue', 'domains'], function (result) {
-        document.querySelector('input[name="cookieName"]').value = result.cookieName || '';
-        document.querySelector('input[name="cookieValue"]').value = result.cookieValue || '';
-
-        var domains = result.domains || false;
-        // для первого домена - заполняем имеющееся поля
-        // для остальных - добавляем поля
-        if (Array.isArray(domains)) {
-            document.querySelector('input[name="domain"]').value = domains[0] || '';
-            for (var i = 1; i < domains.length; i++) {
-                addDomainField(domains[i])
-            }
-        }
+        fillCookieFormByValues(result)
     });
 
     // кнопка "Добавить домен"
@@ -125,11 +150,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         chrome.storage.local.get('savedActions', function (result) {
             var savedActions = result.savedActions || false;
-            if (!Array.isArray(savedActions)) {
-                savedActions = [];
+            if (typeof savedActions !== 'object') {
+                savedActions = {};
             }
-            savedActions.push(values);
+            savedActions[values.actionName] = values;
             chrome.storage.local.set({savedActions: savedActions})
         });
+
+        window.location.reload()
     });
 });
